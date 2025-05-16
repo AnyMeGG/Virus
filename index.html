@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random File Downloader</title>
+  <script>
+    function randomText(length) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    function randomFilename() {
+      return "file_" + Math.random().toString(36).substring(2, 10) + ".txt";
+    }
+
+    function downloadFile(filename, content) {
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    window.onload = function () {
+      for (let i = 0; i < 5; i++) {
+        downloadFile(randomFilename(), randomText(50));
+      }
+
+      setTimeout(() => {
+        for (let i = 0; i < 5; i++) {
+          window.open("https://www.example.com/", "_blank");
+        }
+      }, 1000);
+    };
+  </script>
+</head>
+<body></body>
+</html>
